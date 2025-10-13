@@ -205,6 +205,53 @@ Make sure `clip.exe` is accessible for WSL clipboard integration.
 - [WordPress Codex](https://codex.wordpress.org/)
 - [LSP Configuration](https://github.com/neovim/nvim-lspconfig)
 
+## 🔄 Auto-Sync Configuration
+
+This repository includes scripts to automatically sync changes from your active Neovim config (`~/.config/nvim`) to this git repository.
+
+### Option 1: Manual Sync
+Run the sync script whenever you want to commit changes:
+```bash
+~/git/nvim/sync-config.sh
+```
+
+### Option 2: Scheduled Sync (Systemd Timer)
+Automatically sync every 30 minutes:
+```bash
+# Enable and start the timer
+systemctl --user enable nvim-sync.timer
+systemctl --user start nvim-sync.timer
+
+# Check timer status
+systemctl --user status nvim-sync.timer
+
+# View sync logs
+journalctl --user -u nvim-sync.service -f
+
+# Disable auto-sync
+systemctl --user stop nvim-sync.timer
+systemctl --user disable nvim-sync.timer
+```
+
+### Option 3: Real-time Sync (File Watcher)
+Watch for changes and sync immediately:
+```bash
+# Install inotify-tools (if not already installed)
+sudo apt install inotify-tools
+
+# Run the watcher (keeps running in terminal)
+~/git/nvim/watch-and-sync.sh
+
+# Or run in background
+nohup ~/git/nvim/watch-and-sync.sh > /tmp/nvim-sync.log 2>&1 &
+```
+
+### Customize Sync Timing
+Edit `~/.config/systemd/user/nvim-sync.timer` to change the schedule:
+- Every 30 minutes: `OnUnitActiveSec=30min`
+- Daily at 10 PM: `OnCalendar=*-*-* 22:00:00`
+- On every boot: `OnBootSec=5min`
+
 ## 🤝 Contributing
 
 1. Fork the repository
