@@ -164,6 +164,14 @@ require("lazy").setup({
   -- Web development specific
   { "norcalli/nvim-colorizer.lua" }, -- Color preview
   { "preservim/vim-markdown", ft = "markdown" },
+  { "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    build = "cd app && npm install",
+    config = function()
+      vim.g.mkdp_auto_close = 0
+      vim.g.mkdp_theme = 'dark'
+    end
+  },
   
   -- WordPress specific
   { "dsawardekar/wordpress.vim", ft = "php" },

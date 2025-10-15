@@ -104,3 +104,7 @@ map("n", "<leader>m", ":Mason<CR>", { desc = "Open Mason" })
 -- WordPress specific shortcuts
 map("n", "<leader>wp", ":e wp-config.php<CR>", { desc = "Edit wp-config" })
 map("n", "<leader>wf", ":e functions.php<CR>", { desc = "Edit functions.php" })
+
+-- Markdown preview
+map("n", "<leader>mp", ":MarkdownPreview<CR>", { desc = "Markdown preview" })
+map("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { desc = "Stop markdown preview" })
