@@ -1,7 +1,6 @@
 -- lsp.lua
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
-local lspconfig = require("lspconfig")
 local cmp = require("cmp")
 
 -- Mason setup for automatic LSP server installation
@@ -131,18 +130,19 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
--- Configure each LSP server (using modern approach without setup_handlers)
+-- Configure each LSP server (using vim.lsp.config API for nvim-lspconfig v3.0+)
 local function setup_lsp_server(server_name, config)
   local default_config = {
     capabilities = capabilities,
     on_attach = on_attach,
   }
-  
+
   if config then
     default_config = vim.tbl_deep_extend("force", default_config, config)
   end
-  
-  lspconfig[server_name].setup(default_config)
+
+  -- Use the new vim.lsp.config API
+  vim.lsp.config(server_name, default_config)
 end
 
 -- Setup all servers with default configuration
