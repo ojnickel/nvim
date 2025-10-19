@@ -96,14 +96,50 @@ All keybindings match the original `.vimrc` configuration:
 
 ## 🎯 WordPress Development Features
 
-### Comprehensive Snippets
-- `wpq` - WP_Query with meta queries
-- `wpl` - WordPress loop
-- `wpcpt` - Custom post type registration
-- `wpenq` - Enqueue scripts and styles
-- `wpmeta` - Meta box creation
-- `wptheme` - WordPress theme template
-- And many more!
+### Code Snippets
+
+Snippets use LuaSnip and appear in autocomplete. Type the trigger word and press `Tab` to insert. Use `Tab` to jump to the next placeholder, `Shift+Tab` to go back.
+
+#### PHP/WordPress Snippets
+
+**Template Tags** (Static - no placeholders):
+- `wpt` - `<?php the_title(); ?>`
+- `wpc` - `<?php the_content(); ?>`
+- `wpe` - `<?php the_excerpt(); ?>`
+- `wpa` - `<?php the_author(); ?>`
+- `wpd` - `<?php the_date(); ?>`
+- `wpp` - `<?php the_permalink(); ?>`
+- `wpf` - `<?php the_post_thumbnail(); ?>`
+
+**WordPress Functions** (Interactive - has tab stops):
+- `wpq` - WP_Query with meta queries (customizable post type, meta key/value)
+- `wpl` - WordPress loop (if/while/endwhile structure)
+- `wpcpt` - Custom post type registration (full function with add_action)
+- `wpenq` - Enqueue scripts and styles (full function with add_action)
+- `wpmeta` - Meta box creation (full function with add_meta_boxes action)
+- `wphook` - add_action hook (customizable hook name and callback)
+- `wpfilter` - add_filter hook (customizable filter name and callback)
+
+#### HTML Snippets
+
+- `html5` - Complete HTML5 boilerplate with customizable language, title, and body
+- `wptheme` - WordPress theme template with wp_head(), wp_footer(), and body_class()
+
+#### CSS/SCSS Snippets
+
+- `flex` - Flexbox layout (customizable justify-content and align-items)
+- `grid` - CSS Grid layout (customizable columns and gap)
+- `media` - Media query (choose max-width/min-width, customizable breakpoint)
+
+#### JavaScript Snippets
+
+- `jqready` - jQuery document.ready wrapper
+- `ajax` - WordPress AJAX call with customizable action, data, and success callback
+
+#### TypeScript Snippets
+
+- `interface` - TypeScript interface declaration
+- `type` - TypeScript type alias
 
 ### WordPress-Specific LSP
 - **Intelephense** with WordPress stubs
