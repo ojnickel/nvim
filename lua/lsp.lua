@@ -1,7 +1,6 @@
 -- lsp.lua
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
-local lspconfig = require("lspconfig")
 local cmp = require("cmp")
 
 -- Mason setup for automatic LSP server installation
@@ -40,7 +39,16 @@ mason_lspconfig.setup({
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 
+-- Setup cmp-path with specific options
+local cmp_path = require("cmp_path")
+
 cmp.setup({
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  },
+  experimental = {
+    ghost_text = true,
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -76,11 +84,21 @@ cmp.setup({
     end, { "i", "s" }),
   }),
   sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "path" },
-    { name = "vim-dadbod-completion" },
+    { name = "nvim_lsp", priority = 1000 },
+    { name = "luasnip", priority = 750 },
+    {
+      name = "path",
+      priority = 500,
+      option = {
+        trailing_slash = true,
+        label_trailing_slash = true,
+        get_cwd = function(params)
+          return vim.fn.expand(('#%d:p:h'):format(params.context.bufnr))
+        end,
+      }
+    },
+    { name = "buffer", priority = 250 },
+    { name = "vim-dadbod-completion", priority = 100 },
   }),
   formatting = {
     format = function(entry, vim_item)
@@ -131,18 +149,19 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
--- Configure each LSP server (using modern approach without setup_handlers)
+-- Configure each LSP server (using vim.lsp.config API for nvim-lspconfig v3.0+)
 local function setup_lsp_server(server_name, config)
   local default_config = {
     capabilities = capabilities,
     on_attach = on_attach,
   }
-  
+
   if config then
     default_config = vim.tbl_deep_extend("force", default_config, config)
   end
-  
-  lspconfig[server_name].setup(default_config)
+
+  -- Use the new vim.lsp.config API
+  vim.lsp.config(server_name, default_config)
 end
 
 -- Setup all servers with default configuration

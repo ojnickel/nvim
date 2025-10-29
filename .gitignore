@@ -1,1 +1,44 @@
-CLAUDE.md
+# Neovim plugin directory (managed by Lazy.nvim)
+.lazy/
+plugin/
+.repro/
+
+# Lazy.nvim data directory
+lazy-lock.json.old
+
+# Compiled Lua files
+*.luac
+
+# LSP and Mason data
+.luarc.json
+
+# Undo history
+.*.un~
+*.un~
+
+# Swap files
+*.swp
+*.swo
+*~
+
+# Session files
+Session.vim
+.session
+
+# Netrw history
+.netrwhist
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude Code directory
+.claude/
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# Debug logs
+*.log

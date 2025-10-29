@@ -1,315 +1,380 @@
-# 🚀 Modern Neovim Configuration for WordPress & Web Development
+# Neovim Configuration
 
-A powerful, VS Code-inspired Neovim configuration optimized for WordPress and modern web development. This setup combines the efficiency of Vim with the features of a modern IDE, supporting HTML, CSS, SCSS, JavaScript, TypeScript, PHP, Python, Docker, and SQL development.
+A comprehensive Neovim configuration written in Lua, optimized for modern web development with a focus on WordPress development. Features a VS Code-like experience with powerful LSP integration, Git tools, and modular plugin architecture.
 
-![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)
-![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
-![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)
+## Features
 
-## ✨ Features
+- **Modern Plugin Management**: Lazy.nvim with automatic bootstrapping
+- **LSP Integration**: Full language server support with Mason for automatic installation
+- **Beautiful UI**: Catppuccin theme, Neo-tree file explorer, lualine status bar
+- **Git Integration**: Fugitive and Gitsigns for comprehensive Git workflow
+- **WordPress Development**: Dedicated snippets and WordPress.vim integration
+- **Database Management**: vim-dadbod suite for database operations
+- **Smart Completion**: nvim-cmp with multiple sources and LuaSnip snippets
+- **Fuzzy Finding**: Telescope for files, buffers, and live grep
+- **Syntax Highlighting**: Treesitter for accurate syntax highlighting
+- **Integrated Terminal**: ToggleTerm for seamless terminal integration
 
-### 🎨 VS Code-Inspired Interface
-- **Modern UI** with VS Code dark theme and transparent background
-- **Neo-tree file explorer** with Git integration
-- **Bufferline tabs** for easy buffer navigation
-- **Enhanced status line** with Git status and diagnostics
-- **Satellite minimap** showing cursor, diagnostics, and Git changes
-- **Custom start screen** with quick actions
+## Requirements
 
-### 🔧 Language Support
-- **HTML/CSS/SCSS** with Emmet expansion
-- **JavaScript/TypeScript** with full IntelliSense
-- **PHP** with WordPress-specific stubs and features
-- **Python** with LSP support
-- **Docker** syntax highlighting
-- **SQL** with database integration
-- **Markdown** support
+- Neovim >= 0.9.0
+- Git
+- Node.js and npm (for LSP servers)
+- ripgrep (for Telescope live grep)
+- A Nerd Font (for icons)
+- For WSL: clip.exe for clipboard integration
 
-### ⚡ Development Tools
-- **Mason LSP Manager** - Automatic language server installation
-- **Telescope** - Fuzzy finder for files, text, and more
-- **Git integration** - Visual Git status, blame, and operations
-- **Terminal integration** - Built-in terminal with toggle
-- **Database UI** - Database management for WordPress development
-- **Color preview** - Live CSS color highlighting
-- **Auto-completion** - Intelligent code completion with snippets
+## Installation
 
-### 🔑 Familiar Keybindings
-All keybindings match the original `.vimrc` configuration:
-- Leader key: `-` (dash)
-- `F2` - Toggle file explorer
-- `F5` - Toggle satellite minimap
-- `<leader>w` - Save file
-- `<leader>q` - Quit
-- `t` - New buffer
-- `<leader>l/h` - Navigate buffers
-- And many more familiar shortcuts!
+### Quick Start
 
-## 📦 Installation
-
-### Prerequisites
-- **Neovim 0.9+** (recommended: latest stable)
-- **Git** for plugin management
-- **Node.js** and **npm** for LSP servers
-- **Ripgrep** for telescope search functionality
-- **A Nerd Font** for icons (recommended: FiraCode Nerd Font)
-
-### Quick Install
-
-1. **Backup existing configuration** (if any):
-   ```bash
-   mv ~/.config/nvim ~/.config/nvim.backup
-   ```
-
-2. **Clone this repository**:
-   ```bash
-   git clone https://github.com/yourusername/nvim-config.git ~/.config/nvim
-   ```
-
-3. **Start Neovim**:
-   ```bash
-   nvim
-   ```
-   
-   The configuration will automatically:
-   - Install Lazy.nvim plugin manager
-   - Download and install all plugins
-   - Install LSP servers via Mason
-
-4. **Restart Neovim** after initial plugin installation
-
-## 📁 Configuration Structure
-
-```
-~/.config/nvim/
-├── init.lua                 # Entry point
-├── lua/
-│   ├── settings.lua         # Vim options and settings
-│   ├── keymaps.lua         # Key mappings
-│   ├── plugins.lua         # Plugin definitions
-│   ├── lsp.lua             # LSP configuration
-│   ├── ui.lua              # UI and theme setup
-│   └── snippets/
-│       └── wordpress.lua   # WordPress & web dev snippets
-└── README.md
-```
-
-## 🎯 WordPress Development Features
-
-### Code Snippets
-
-Snippets use LuaSnip and appear in autocomplete. Type the trigger word and press `Tab` to insert. Use `Tab` to jump to the next placeholder, `Shift+Tab` to go back.
-
-#### PHP/WordPress Snippets
-
-**Template Tags** (Static - no placeholders):
-- `wpt` - `<?php the_title(); ?>`
-- `wpc` - `<?php the_content(); ?>`
-- `wpe` - `<?php the_excerpt(); ?>`
-- `wpa` - `<?php the_author(); ?>`
-- `wpd` - `<?php the_date(); ?>`
-- `wpp` - `<?php the_permalink(); ?>`
-- `wpf` - `<?php the_post_thumbnail(); ?>`
-
-**WordPress Functions** (Interactive - has tab stops):
-- `wpq` - WP_Query with meta queries (customizable post type, meta key/value)
-- `wpl` - WordPress loop (if/while/endwhile structure)
-- `wpcpt` - Custom post type registration (full function with add_action)
-- `wpenq` - Enqueue scripts and styles (full function with add_action)
-- `wpmeta` - Meta box creation (full function with add_meta_boxes action)
-- `wphook` - add_action hook (customizable hook name and callback)
-- `wpfilter` - add_filter hook (customizable filter name and callback)
-
-#### HTML Snippets
-
-- `html5` - Complete HTML5 boilerplate with customizable language, title, and body
-- `wptheme` - WordPress theme template with wp_head(), wp_footer(), and body_class()
-
-#### CSS/SCSS Snippets
-
-- `flex` - Flexbox layout (customizable justify-content and align-items)
-- `grid` - CSS Grid layout (customizable columns and gap)
-- `media` - Media query (choose max-width/min-width, customizable breakpoint)
-
-#### JavaScript Snippets
-
-- `jqready` - jQuery document.ready wrapper
-- `ajax` - WordPress AJAX call with customizable action, data, and success callback
-
-#### TypeScript Snippets
-
-- `interface` - TypeScript interface declaration
-- `type` - TypeScript type alias
-
-### WordPress-Specific LSP
-- **Intelephense** with WordPress stubs
-- **WordPress function completion**
-- **Hook and filter suggestions**
-- **WordPress coding standards**
-
-### Database Integration
-- **Database UI** for managing WordPress databases
-- **SQL syntax highlighting**
-- **Query execution and results**
-
-## ⌨️ Key Mappings
-
-### File Operations
-| Key | Action |
-|-----|--------|
-| `<leader>w` | Save file |
-| `<leader>q` | Quit without saving |
-| `<leader>x` | Save and quit |
-| `F2` | Toggle file explorer |
-| `F3` | Paste mode toggle |
-
-### Buffer Navigation
-| Key | Action |
-|-----|--------|
-| `t` | New buffer |
-| `<leader>l` | Next buffer |
-| `<leader>h` | Previous buffer |
-| `<leader>d` | Delete buffer |
-| `<leader>bl` | List all buffers |
-
-### Git Operations
-| Key | Action |
-|-----|--------|
-| `<leader>gs` | Git status |
-| `<leader>gc` | Git commit |
-| `<leader>ga` | Git add current file |
-| `<leader>gp` | Git push |
-| `<leader>gd` | Git diff |
-
-### Development Tools
-| Key | Action |
-|-----|--------|
-| `<leader>ff` | Find files |
-| `<leader>fg` | Live grep |
-| `<leader>t` | Toggle terminal |
-| `<leader>m` | Open Mason |
-| `F5` | Toggle satellite |
-
-## 🎨 Customization
-
-### Changing Theme
-Edit `lua/ui.lua` and modify the colorscheme:
-```lua
-vim.cmd("colorscheme your-theme")
-```
-
-### Adding Plugins
-Add plugins to `lua/plugins.lua`:
-```lua
-{ "author/plugin-name", config = function() end }
-```
-
-### Custom Snippets
-Add snippets to `lua/snippets/` directory following the LuaSnip format.
-
-### LSP Servers
-Add language servers to `lua/lsp.lua`:
-```lua
-local servers = {
-  "your-language-server",
-  -- ... existing servers
-}
-```
-
-## 🔧 Troubleshooting
-
-### Plugin Installation Issues
 ```bash
-# Remove plugin cache and reinstall
-rm -rf ~/.local/share/nvim
+# Backup existing config if you have one
+mv ~/.config/nvim ~/.config/nvim.backup
+
+# Clone this repository
+git clone https://github.com/yourusername/nvim.git ~/.config/nvim
+
+# Start Neovim (plugins will auto-install)
 nvim
 ```
 
-### LSP Server Issues
-```bash
-# Open Mason and reinstall servers
+### First Launch
+
+On first launch, Lazy.nvim will automatically:
+1. Bootstrap itself
+2. Install all plugins defined in `lua/plugins/`
+3. Set up the Catppuccin colorscheme
+
+After plugins install, run:
+```vim
 :Mason
+```
+to install LSP servers interactively, or they will install automatically when you open supported files.
+
+## Configuration Structure
+
+```
+~/.config/nvim/
+├── init.lua                      # Main entry point
+├── CLAUDE.md                     # AI assistant instructions
+├── lazy-lock.json                # Plugin version lock file
+└── lua/
+    ├── settings.lua              # Vim options and general settings
+    ├── keymaps.lua               # Key mappings and leader configuration
+    ├── lsp.lua                   # LSP server setup and completion
+    ├── ui.lua                    # UI component configurations
+    ├── wordpress.lua             # WordPress-specific utilities
+    ├── plugins.lua               # Lazy.nvim bootstrap
+    ├── plugins/                  # Modular plugin definitions
+    │   ├── colorscheme.lua       # Theme configurations
+    │   ├── ui.lua                # UI plugins (neo-tree, lualine, etc.)
+    │   ├── editor.lua            # Editor enhancements (telescope, etc.)
+    │   ├── lsp.lua               # LSP and completion plugins
+    │   ├── treesitter.lua        # Treesitter configuration
+    │   ├── git.lua               # Git integration plugins
+    │   ├── terminal.lua          # Terminal plugins
+    │   ├── lang.lua              # Language-specific plugins
+    │   └── formatting.lua        # Code formatting plugins
+    └── snippets/
+        └── wordpress.lua         # WordPress code snippets
+```
+
+## Key Mappings
+
+### Leader Key
+The leader key is set to `-` (dash)
+
+### File Operations
+- `<leader>w` - Save file
+- `<leader>q` - Quit without saving
+- `<leader>x` - Save and quit
+- `<F2>` - Toggle Neo-tree file explorer
+- `<F3>` - Toggle paste mode
+- `<F5>` - Toggle scrollbar
+
+### Navigation
+- `<leader>l` - Next buffer
+- `<leader>h` - Previous buffer
+- `<leader>d` - Delete buffer
+- `<leader>bq` - Close buffer and move to previous
+- `<leader>bl` - List all buffers
+- `t` - New buffer
+
+### Search & Find (Telescope)
+- `<leader>ff` - Find files
+- `<leader>fg` - Live grep search
+- `<leader>fb` - Buffer list
+- `<leader>fh` - Help tags
+
+### LSP Operations
+- `gd` - Go to definition
+- `gr` - Show references
+- `K` - Show hover information
+- `<leader>ca` - Code actions
+- `<leader>rn` - Rename symbol
+- `<leader>f` - Format document
+- `[d` - Previous diagnostic
+- `]d` - Next diagnostic
+
+### Git Integration
+- `<leader>gs` - Git status
+- `<leader>gc` - Git commit
+- `<leader>ga` - Git add current file
+- `<leader>gp` - Git push
+- `<leader>gl` - Git pull
+- `<leader>gd` - Git diff
+- `<leader>gb` - Git blame
+
+### Terminal
+- `<leader>t` - Toggle terminal
+- `<C-\><C-n>` - Exit terminal mode
+
+### Database
+- `<leader>db` - Toggle database UI
+
+### Visual Mode
+- `<leader>c` - Toggle cursor line/column
+- `<leader>y` - Copy to Windows clipboard (WSL)
+
+## Plugin List
+
+### Colorschemes
+- **catppuccin/nvim** - Primary theme (mocha flavor)
+- **folke/tokyonight.nvim** - Alternative theme
+- **Mofiqul/vscode.nvim** - VS Code theme
+
+### UI Components
+- **nvim-neo-tree/neo-tree.nvim** - File explorer
+- **nvim-lualine/lualine.nvim** - Status line
+- **akinsho/bufferline.nvim** - Buffer tabs
+- **lukas-reineke/indent-blankline.nvim** - Indent guides
+- **goolord/alpha-nvim** - Start screen
+- **dstein64/nvim-scrollview** - Scrollbar
+
+### Editor Enhancements
+- **nvim-telescope/telescope.nvim** - Fuzzy finder
+- **folke/which-key.nvim** - Key binding hints
+- **numToStr/Comment.nvim** - Smart commenting
+- **windwp/nvim-autopairs** - Auto close pairs
+- **norcalli/nvim-colorizer.lua** - Color preview
+
+### LSP & Completion
+- **neovim/nvim-lspconfig** - LSP configurations
+- **williamboman/mason.nvim** - LSP installer
+- **williamboman/mason-lspconfig.nvim** - Mason bridge
+- **hrsh7th/nvim-cmp** - Completion engine
+- **hrsh7th/cmp-nvim-lsp** - LSP completion source
+- **hrsh7th/cmp-buffer** - Buffer completion
+- **hrsh7th/cmp-path** - Path completion
+- **L3MON4D3/LuaSnip** - Snippet engine
+- **rafamadriz/friendly-snippets** - Snippet collection
+
+### Syntax & Parsing
+- **nvim-treesitter/nvim-treesitter** - Syntax highlighting
+
+### Git Integration
+- **tpope/vim-fugitive** - Git commands
+- **lewis6991/gitsigns.nvim** - Git decorations
+
+### Language-Specific
+- **dsawardekar/wordpress.vim** - WordPress development
+- **preservim/vim-markdown** - Markdown support
+- **iamcco/markdown-preview.nvim** - Live markdown preview
+- **tpope/vim-dadbod** - Database interface
+- **kristijanhusak/vim-dadbod-ui** - Database UI
+- **ekalinin/Dockerfile.vim** - Docker syntax
+
+### Formatting
+- **mattn/emmet-vim** - Emmet abbreviations
+- **windwp/nvim-ts-autotag** - Auto close HTML tags
+- **jose-elias-alvarez/null-ls.nvim** - Code formatting
+- **MunifTanjim/prettier.nvim** - Prettier integration
+
+### Terminal
+- **akinsho/toggleterm.nvim** - Terminal integration
+
+## LSP Servers
+
+Configured LSP servers (auto-installed via Mason):
+- **HTML**: html-lsp
+- **CSS/SCSS**: css-lsp
+- **JavaScript/TypeScript**: tsserver
+- **PHP**: intelephense (with WordPress stubs)
+- **Python**: pyright
+- **Bash**: bashls
+- **Docker**: dockerls
+- **SQL**: sqlls
+- **Lua**: lua-ls
+- **Emmet**: emmet_ls
+
+## Treesitter Parsers
+
+Auto-installed parsers for:
+- HTML, CSS, SCSS
+- JavaScript, TypeScript
+- PHP, Python
+- Dockerfile, SQL
+- Lua
+
+## Customization
+
+### Changing the Theme
+
+Edit `lua/plugins/colorscheme.lua` and modify line 59:
+```lua
+vim.cmd.colorscheme("catppuccin")  -- Change to "tokyonight" or "vscode"
+```
+
+### Adding New Plugins
+
+Create or edit files in `lua/plugins/` directory. For example, to add a new plugin:
+
+```lua
+-- lua/plugins/your-category.lua
+return {
+  {
+    "author/plugin-name",
+    config = function()
+      require("plugin-name").setup({
+        -- your configuration
+      })
+    end,
+  },
+}
+```
+
+### Custom Key Mappings
+
+Add mappings to `lua/keymaps.lua`:
+```lua
+map("n", "<leader>your_key", ":YourCommand<CR>", { desc = "Description" })
+```
+
+### LSP Server Configuration
+
+Modify `lua/lsp.lua` to customize LSP settings or add new servers.
+
+## WordPress Development
+
+### WordPress Snippets
+
+Custom WordPress snippets are available in `lua/snippets/wordpress.lua`:
+- Post type registration
+- Custom hooks
+- Meta boxes
+- Common WordPress functions
+
+### Using WordPress Snippets
+
+In a PHP file, type the snippet prefix and press `<Tab>` to expand:
+- `wpptype` - Register post type
+- `wphook` - Add action hook
+- `wpmeta` - Register meta box
+
+## Commands
+
+### Plugin Management
+```vim
+:Lazy              " Open Lazy.nvim UI
+:Lazy update       " Update all plugins
+:Lazy install      " Install missing plugins
+:Lazy clean        " Remove unused plugins
+```
+
+### LSP Management
+```vim
+:Mason             " Open Mason UI
+:LspInfo           " Show LSP client info
+:LspRestart        " Restart LSP server
+```
+
+### File Explorer
+```vim
+:Neotree toggle    " Toggle file tree
+:Neotree focus     " Focus file tree
+```
+
+### Database
+```vim
+:DBUI              " Open database UI
+```
+
+### Git
+```vim
+:Git status        " Git status
+:Git commit        " Git commit
+:Git push          " Git push
+```
+
+## Troubleshooting
+
+### Plugins Not Loading
+
+```vim
+:Lazy restore      " Restore plugins from lockfile
+:Lazy clear        " Clear plugin cache
+```
+
+### LSP Not Working
+
+```vim
+:Mason             " Check LSP server installation
+:LspInfo           " Check LSP client status
+:checkhealth       " Run Neovim health check
 ```
 
 ### Clipboard Issues (WSL)
-Make sure `clip.exe` is accessible for WSL clipboard integration.
 
-## 📚 Learning Resources
-
-- [Neovim Documentation](https://neovim.io/doc/)
-- [Lua Guide for Neovim](https://github.com/nanotee/nvim-lua-guide)
-- [WordPress Codex](https://codex.wordpress.org/)
-- [LSP Configuration](https://github.com/neovim/nvim-lspconfig)
-
-## 🔄 Auto-Sync Configuration
-
-This repository includes scripts to automatically sync changes from your active Neovim config (`~/.config/nvim`) to this git repository.
-
-### Option 1: Manual Sync
-Run the sync script whenever you want to commit changes:
+Ensure `clip.exe` is accessible:
 ```bash
-~/git/nvim/sync-config.sh
+which clip.exe
 ```
 
-### Option 2: Scheduled Sync (Systemd Timer)
-Automatically sync every 30 minutes:
+If not found, check your Windows PATH is available in WSL.
+
+### Slow Startup
+
+Check startup time:
 ```bash
-# Enable and start the timer
-systemctl --user enable nvim-sync.timer
-systemctl --user start nvim-sync.timer
-
-# Check timer status
-systemctl --user status nvim-sync.timer
-
-# View sync logs
-journalctl --user -u nvim-sync.service -f
-
-# Disable auto-sync
-systemctl --user stop nvim-sync.timer
-systemctl --user disable nvim-sync.timer
+nvim --startuptime startup.log
 ```
 
-### Option 3: Real-time Sync (File Watcher)
-Watch for changes and sync immediately:
-```bash
-# Install inotify-tools (if not already installed)
-sudo apt install inotify-tools
+Consider disabling unused plugins by setting `lazy = true` in plugin config.
 
-# Run the watcher (keeps running in terminal)
-~/git/nvim/watch-and-sync.sh
+## Updates
 
-# Or run in background
-nohup ~/git/nvim/watch-and-sync.sh > /tmp/nvim-sync.log 2>&1 &
+### Update Plugins
+```vim
+:Lazy update
 ```
 
-### Customize Sync Timing
-Edit `~/.config/systemd/user/nvim-sync.timer` to change the schedule:
-- Every 30 minutes: `OnUnitActiveSec=30min`
-- Daily at 10 PM: `OnCalendar=*-*-* 22:00:00`
-- On every boot: `OnBootSec=5min`
+### Update LSP Servers
+```vim
+:Mason
+# Press 'U' to update all
+```
 
-## 🤝 Contributing
+### Sync Configuration
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Commit: `git commit -m "Add feature"`
-5. Push: `git push origin feature-name`
-6. Open a pull request
+To sync changes from `~/.config/nvim` to this repository:
+```bash
+rsync -av --exclude='.claude' --exclude='.git' ~/.config/nvim/ ~/git/nvim/
+cd ~/git/nvim
+git add .
+git commit -m "Update configuration"
+git push
+```
 
-## 📝 License
+## License
 
-This configuration is open source and available under the [MIT License](LICENSE).
+MIT License - Feel free to use and modify for your own setup.
 
-## 🙏 Acknowledgments
+## Credits
 
-- [Neovim](https://neovim.io/) - The hyperextensible Vim-based text editor
-- [LazyVim](https://github.com/LazyVim/LazyVim) - Inspiration for modern Neovim configuration
-- [VS Code](https://code.visualstudio.com/) - UI/UX inspiration
-- WordPress Community - For the amazing development ecosystem
+Built with contributions from the amazing Neovim community and plugin authors.
 
 ---
 
-**Made with ❤️ for WordPress developers who love Vim**
-
-*Transform your development workflow with the power of Neovim and the familiarity of your existing key bindings.*
+**Maintained by**: nickel
+**Last Updated**: October 2024
