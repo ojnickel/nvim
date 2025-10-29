@@ -684,7 +684,10 @@ Optimize in plugin files:
 
 ---
 
-## 📚 Learning Resources
+Add to `lua/keymaps.lua`:
+```lua
+map("n", "<leader>key", ":Command<CR>", { desc = "Description" })
+```
 
 ### Neovim
 - [Neovim Documentation](https://neovim.io/doc/)
@@ -740,6 +743,8 @@ git push
 ## 📄 License
 
 MIT License - Feel free to use and modify for your own setup.
+
+---
 
 ---
 
