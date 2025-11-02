@@ -39,9 +39,10 @@ This is a comprehensive Neovim configuration written in Lua, optimized for web d
 - `<leader>ff` - Find files (Telescope)
 - `<leader>fg` - Live grep search
 - `<leader>fb` - Buffer list
+- `<leader>o` - Toggle code outline (functions, classes, symbols)
 - `<leader>t` - Toggle terminal
 - `<leader>db` - Toggle database UI
-- `<F5>` - Toggle scrollview (scrollbar)
+- `<F5>` - Toggle relative line numbers
 
 ### LSP Operations
 - `gd` - Go to definition
@@ -63,26 +64,39 @@ This is a comprehensive Neovim configuration written in Lua, optimized for web d
 - `init.lua` - Main entry point that requires all modules
 - `lua/settings.lua` - Vim options and general settings
 - `lua/keymaps.lua` - Key mappings and leader key configuration
-- `lua/plugins.lua` - Plugin definitions and configurations using Lazy.nvim
+- `lua/plugins.lua` - Lazy.nvim bootstrap script (auto-loads all plugins/* files)
 - `lua/lsp.lua` - LSP server setup, Mason configuration, and autocompletion
-- `lua/ui.lua` - UI components (lualine, bufferline, neo-tree, etc.)
+- `lua/wordpress.lua` - WordPress-specific utilities
+- `lua/plugins/` - Modular plugin definitions with configurations
+  - `colorscheme.lua` - Theme configurations
+  - `ui.lua` - UI plugins (neo-tree, lualine, bufferline, alpha, indent-blankline)
+  - `editor.lua` - Editor enhancements (telescope, outline, autopairs, comments, colorizer, which-key)
+  - `lsp.lua` - LSP and completion plugins
+  - `treesitter.lua` - Treesitter parser configuration
+  - `git.lua` - Git integration (fugitive, gitsigns)
+  - `terminal.lua` - Terminal integration (toggleterm)
+  - `lang.lua` - Language-specific plugins (WordPress, markdown, database, Docker)
+  - `formatting.lua` - Code formatting tools (emmet, prettier, autotag)
 - `lua/snippets/wordpress.lua` - WordPress-specific code snippets
 
 ### Plugin Architecture
 The configuration uses a modular approach where:
-- Plugins are defined in `plugins.lua` with their configurations
-- UI components are configured in `ui.lua`
+- Each plugin category has its own file in `lua/plugins/`
+- Plugin definitions AND configurations are co-located in the same file
+- Lazy.nvim automatically loads all files from `lua/plugins/` directory
 - LSP servers and completion are handled in `lsp.lua`
-- Custom snippets are organized by language/framework
+- Custom snippets are organized by language/framework in `lua/snippets/`
 
 ### Key Features
-- **Theme**: Catppuccin (mocha flavor) with TokyoNight as alternative
+- **Theme**: Catppuccin (mocha flavor) with TokyoNight and VSCode as alternatives
 - **File Explorer**: Neo-tree (VS Code-like sidebar)
+- **Code Outline**: outline.nvim for viewing file structure (functions, classes, symbols)
 - **Search**: Telescope with file browser extension
 - **Terminal**: ToggleTerm for integrated terminal
 - **Git**: Fugitive + Gitsigns for comprehensive Git integration
 - **Database**: vim-dadbod suite for database management
 - **WordPress**: Dedicated snippets and WordPress.vim plugin
+- **Markdown**: render-markdown.nvim for beautiful in-editor markdown rendering
 
 ### Language Support
 Configured LSP servers for:
@@ -95,10 +109,12 @@ Configured LSP servers for:
 ### Development Workflow
 1. Use `<F2>` to open file explorer
 2. Navigate and open files using Neo-tree or Telescope (`<leader>ff`)
-3. LSP provides real-time diagnostics and code intelligence
-4. Terminal integration with `<leader>t` for running commands
-5. Git operations directly from editor
-6. WordPress snippets available for rapid PHP development
+3. Use `<leader>o` to view code outline (functions, classes, symbols)
+4. LSP provides real-time diagnostics and code intelligence
+5. Terminal integration with `<leader>t` for running commands
+6. Git operations directly from editor
+7. WordPress snippets available for rapid PHP development
+8. Markdown files automatically render with beautiful formatting
 
 ## Configuration Notes
 
@@ -106,4 +122,6 @@ Configured LSP servers for:
 - WSL clipboard integration configured for Windows users
 - Custom WordPress snippets include post types, hooks, meta boxes, and common functions
 - Mason automatically installs and manages LSP servers
-- Scrollview provides scrollbar functionality for better code navigation
+- All plugin configurations are modular - each category in `lua/plugins/` contains both plugin spec and config
+- Outline.nvim provides code structure navigation on the right sidebar
+- Markdown files render automatically with headings, code blocks, and checkboxes styled beautifully

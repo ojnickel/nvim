@@ -14,18 +14,13 @@ map("n", "<leader>x", ":x<CR>", { desc = "Save and quit" })
 -- File explorer (F2 from .vimrc)
 map("n", "<F2>", ":Neotree toggle<CR>", { desc = "Toggle file explorer" })
 
--- Scrollview toggle (F5 from .vimrc - scrollbar)
+-- Note: F5 was previously used for satellite scrollbar toggle
+-- Satellite.nvim doesn't support runtime enable/disable
+-- Using F5 for relative line numbers toggle instead
 map("n", "<F5>", function()
-  if vim.g.scrollview_enabled ~= false then
-    vim.cmd('ScrollViewDisable')
-    vim.g.scrollview_enabled = false
-    print("Scrollview disabled")
-  else
-    vim.cmd('ScrollViewEnable')
-    vim.g.scrollview_enabled = true
-    print("Scrollview enabled")
-  end
-end, { desc = "Toggle scrollview" })
+  vim.wo.relativenumber = not vim.wo.relativenumber
+  print("Relative line numbers: " .. (vim.wo.relativenumber and "ON" or "OFF"))
+end, { desc = "Toggle relative line numbers" })
 
 -- Paste toggle (F3 from .vimrc) - Using modern Neovim approach
 map("n", "<F3>", function()
@@ -105,6 +100,5 @@ map("n", "<leader>m", ":Mason<CR>", { desc = "Open Mason" })
 map("n", "<leader>wp", ":e wp-config.php<CR>", { desc = "Edit wp-config" })
 map("n", "<leader>wf", ":e functions.php<CR>", { desc = "Edit functions.php" })
 
--- Markdown preview
-map("n", "<leader>mp", ":MarkdownPreview<CR>", { desc = "Markdown preview" })
-map("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { desc = "Stop markdown preview" })
+-- Code outline
+map("n", "<leader>o", ":Outline<CR>", { desc = "Toggle code outline" })

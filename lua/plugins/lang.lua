@@ -3,15 +3,27 @@ return {
   -- WordPress specific
   { "dsawardekar/wordpress.vim", ft = "php" },
 
-  -- Markdown
-  { "preservim/vim-markdown", ft = "markdown" },
+  -- Markdown renderer
   {
-    "iamcco/markdown-preview.nvim",
+    "MeanderingProgrammer/render-markdown.nvim",
     ft = "markdown",
-    build = "cd app && npm install",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     config = function()
-      vim.g.mkdp_auto_close = 0
-      vim.g.mkdp_theme = "dark"
+      require("render-markdown").setup({
+        heading = {
+          enabled = true,
+          icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+        },
+        code = {
+          enabled = true,
+          style = "full",
+        },
+        checkbox = {
+          enabled = true,
+          unchecked = { icon = "󰄱 " },
+          checked = { icon = "󰱒 " },
+        },
+      })
     end,
   },
 

@@ -33,10 +33,11 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 - **Bufferline Tabs** - Visual buffer tabs with close buttons and file type icons
 - **Lualine Status Line** - Informative status line with Git status, LSP diagnostics, and file info
 - **Alpha Start Screen** - Customizable dashboard with quick actions
-- **Scrollbar** - Visual scrollbar with diagnostics indicators
+- **Code Outline** - Sidebar showing functions, classes, and symbols with outline.nvim
 
 ### ⚡ Developer Productivity
 - **Telescope Fuzzy Finder** - Find files, text, buffers, and help tags instantly
+- **Code Outline Navigation** - Visual structure browser with outline.nvim
 - **Git Integration** - Fugitive and Gitsigns for comprehensive Git workflow
 - **Database UI** - Built-in database management for WordPress development
 - **Integrated Terminal** - ToggleTerm for seamless terminal access
@@ -77,7 +78,6 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 | `nvim-lualine/lualine.nvim` | Customizable status line | `lua/plugins/ui.lua` |
 | `akinsho/bufferline.nvim` | Buffer tabs in the top bar | `lua/plugins/ui.lua` |
 | `goolord/alpha-nvim` | Customizable start screen | `lua/plugins/ui.lua` |
-| `dstein64/nvim-scrollview` | Scrollbar with diagnostics | `lua/plugins/ui.lua` |
 | `lukas-reineke/indent-blankline.nvim` | Indent guides | `lua/plugins/ui.lua` |
 
 ### Navigation & File Management
@@ -86,6 +86,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 | `nvim-neo-tree/neo-tree.nvim` | Modern file explorer sidebar | `lua/plugins/ui.lua` |
 | `nvim-telescope/telescope.nvim` | Fuzzy finder for everything | `lua/plugins/editor.lua` |
 | `nvim-telescope/telescope-file-browser.nvim` | File browser extension | `lua/plugins/editor.lua` |
+| `hedyhli/outline.nvim` | Code structure outline sidebar | `lua/plugins/editor.lua` |
 
 ### LSP & Completion
 | Plugin | Purpose | Config File |
@@ -146,8 +147,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 ### Markdown
 | Plugin | Purpose | Config File |
 |--------|---------|-------------|
-| `preservim/vim-markdown` | Markdown syntax | `lua/plugins/lang.lua` |
-| `iamcco/markdown-preview.nvim` | Live markdown preview in browser | `lua/plugins/lang.lua` |
+| `MeanderingProgrammer/render-markdown.nvim` | Beautiful in-editor markdown rendering | `lua/plugins/lang.lua` |
 
 ### Docker
 | Plugin | Purpose | Config File |
@@ -197,13 +197,12 @@ All LSP servers are automatically installed via Mason on first launch:
     ├── settings.lua              # Core Vim options (tabs, encoding, UI)
     ├── keymaps.lua               # All keybindings (leader: -)
     ├── lsp.lua                   # LSP configuration and completion
-    ├── ui.lua                    # UI component configurations
     ├── wordpress.lua             # WordPress-specific utilities
     ├── plugins.lua               # Lazy.nvim bootstrap script
     ├── plugins/                  # Modular plugin definitions
     │   ├── colorscheme.lua       # Theme configurations
-    │   ├── ui.lua                # UI plugins (neo-tree, lualine, etc.)
-    │   ├── editor.lua            # Editor enhancements (telescope, etc.)
+    │   ├── ui.lua                # UI plugins (neo-tree, lualine, bufferline, etc.)
+    │   ├── editor.lua            # Editor enhancements (telescope, outline, etc.)
     │   ├── lsp.lua               # LSP and completion plugins
     │   ├── treesitter.lua        # Treesitter configuration
     │   ├── git.lua               # Git integration plugins
@@ -217,27 +216,27 @@ All LSP servers are automatically installed via Mason on first launch:
 ### Module Loading Order (init.lua)
 1. `settings.lua` - Core Vim options
 2. `keymaps.lua` - Keybindings (before plugins for leader key)
-3. `plugins.lua` - Plugin manager bootstrap
+3. `plugins.lua` - Plugin manager bootstrap (auto-loads all plugins/* files)
 4. `lsp.lua` - LSP servers and completion
-5. `ui.lua` - UI components (statusline, bufferline, etc.)
-6. `snippets/wordpress.lua` - Custom snippets
+5. `snippets/wordpress.lua` - Custom snippets
 
 **Important:** Module order matters! Settings and keymaps load before plugins to ensure proper initialization.
+All plugin configurations are now contained within their respective `plugins/*.lua` files using config functions.
 
 ### Modular Plugin Architecture
 
 Plugins are organized by category in `lua/plugins/`:
 - **colorscheme.lua** - All color schemes and theme configuration
-- **ui.lua** - UI elements (file tree, status line, buffers, scrollbar)
-- **editor.lua** - Editor enhancements (telescope, autopairs, comments, colorizer)
+- **ui.lua** - UI elements (file tree, status line, buffers, indent guides, alpha)
+- **editor.lua** - Editor enhancements (telescope, outline, autopairs, comments, colorizer, which-key)
 - **lsp.lua** - LSP and completion plugin definitions
 - **treesitter.lua** - Treesitter parser configuration
-- **git.lua** - Git-related plugins
-- **terminal.lua** - Terminal integration
-- **lang.lua** - Language/framework-specific plugins
-- **formatting.lua** - Code formatting and generation tools
+- **git.lua** - Git-related plugins (fugitive, gitsigns)
+- **terminal.lua** - Terminal integration (toggleterm)
+- **lang.lua** - Language/framework-specific plugins (WordPress, markdown, database, Docker)
+- **formatting.lua** - Code formatting and generation tools (emmet, prettier, autotag)
 
-Each file returns a Lua table that Lazy.nvim loads automatically.
+Each file returns a Lua table with plugin specifications and configurations that Lazy.nvim loads automatically.
 
 ---
 
@@ -342,7 +341,7 @@ Then press `U` to update all.
 | `<leader>c` | Normal | Toggle cursor line/column |
 | `F2` | Normal | Toggle Neo-tree file explorer |
 | `F3` | Normal | Toggle paste mode |
-| `F5` | Normal | Toggle scrollbar |
+| `F5` | Normal | Toggle relative line numbers |
 
 ### Buffer Navigation
 | Key | Mode | Action |
@@ -417,6 +416,7 @@ Then press `U` to update all.
 ### Development Tools
 | Key | Mode | Action |
 |-----|------|--------|
+| `<leader>o` | Normal | Toggle code outline |
 | `<leader>t` | Normal/Terminal | Toggle terminal |
 | `<leader>m` | Normal | Open Mason (LSP manager) |
 | `<leader>db` | Normal | Toggle database UI |
@@ -427,11 +427,6 @@ Then press `U` to update all.
 | `<leader>wp` | Normal | Edit wp-config.php |
 | `<leader>wf` | Normal | Edit functions.php |
 
-### Markdown
-| Key | Mode | Action |
-|-----|------|--------|
-| `<leader>mp` | Normal | Markdown preview |
-| `<leader>ms` | Normal | Stop markdown preview |
 
 ---
 
@@ -487,7 +482,7 @@ Available themes:
 - `tokyonight`
 - `vscode`
 
-Update Lualine theme in `lua/ui.lua` to match your colorscheme.
+Update Lualine theme in `lua/plugins/ui.lua` to match your colorscheme.
 
 ### Adding New Plugins
 
@@ -560,11 +555,12 @@ require("snippets.my_snippets")
 
 ### Customizing UI Components
 
-- **File explorer width** - `lua/ui.lua` Neo-tree configuration
-- **Status line sections** - `lua/ui.lua` Lualine configuration
-- **Buffer tabs style** - `lua/ui.lua` Bufferline configuration
-- **Terminal size** - `lua/ui.lua` ToggleTerm configuration
-- **Start screen** - `lua/ui.lua` Alpha configuration
+- **File explorer width** - `lua/plugins/ui.lua` Neo-tree configuration
+- **Status line sections** - `lua/plugins/ui.lua` Lualine configuration
+- **Buffer tabs style** - `lua/plugins/ui.lua` Bufferline configuration
+- **Terminal size** - `lua/plugins/terminal.lua` ToggleTerm configuration
+- **Start screen** - `lua/plugins/ui.lua` Alpha configuration
+- **Code outline** - `lua/plugins/editor.lua` Outline configuration
 
 ---
 
