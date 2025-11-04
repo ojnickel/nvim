@@ -1,8 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Read(//home/nickel/git/nvim/**)",
-      "Bash(nvim:*)"
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []

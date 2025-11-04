@@ -56,6 +56,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 - **Which-key** - Interactive keybinding hints
 - **Indent Guides** - Visual indent lines for better code structure
 - **Colorizer** - Live CSS color preview in files
+- **Smart Completion** - Arrow key navigation (↑↓) and Enter to accept in completion menu
 
 ---
 
@@ -147,7 +148,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 ### Markdown
 | Plugin | Purpose | Config File |
 |--------|---------|-------------|
-| `MeanderingProgrammer/render-markdown.nvim` | Beautiful in-editor markdown rendering | `lua/plugins/lang.lua` |
+| `iamcco/markdown-preview.nvim` | Live markdown preview in browser | `lua/plugins/lang.lua` |
 
 ### Docker
 | Plugin | Purpose | Config File |
@@ -214,14 +215,14 @@ All LSP servers are automatically installed via Mason on first launch:
 ```
 
 ### Module Loading Order (init.lua)
-1. `settings.lua` - Core Vim options
-2. `keymaps.lua` - Keybindings (before plugins for leader key)
-3. `plugins.lua` - Plugin manager bootstrap (auto-loads all plugins/* files)
-4. `lsp.lua` - LSP servers and completion
-5. `snippets/wordpress.lua` - Custom snippets
+1. **Lazy.nvim bootstrap** - Plugin manager initialization
+2. `settings.lua` - Core Vim options
+3. `keymaps.lua` - Keybindings (sets leader key `-` before plugins load)
+4. **Lazy.nvim setup** - Auto-loads all `lua/plugins/*.lua` files
+5. `lsp.lua` - LSP servers, Mason, and completion (with arrow key navigation!)
+6. `snippets/wordpress.lua` - Custom snippets
 
-**Important:** Module order matters! Settings and keymaps load before plugins to ensure proper initialization.
-All plugin configurations are now contained within their respective `plugins/*.lua` files using config functions.
+**CRITICAL:** Do not change this loading order! Settings and keymaps must load before plugins, and LSP must load after plugin setup.
 
 ### Modular Plugin Architecture
 
@@ -332,6 +333,21 @@ Then press `U` to update all.
 
 **Leader Key:** `-` (dash)
 
+### Completion Menu (nvim-cmp)
+When typing, an auto-completion menu appears with suggestions from LSP, snippets, file paths, and buffer words.
+
+| Key | Action |
+|-----|--------|
+| `↓` (Down Arrow) | Select next completion item |
+| `↑` (Up Arrow) | Select previous completion item |
+| `Enter` | Accept selected completion |
+| `Ctrl-e` | Close completion menu |
+| `Ctrl-Space` | Manually trigger completion |
+| `Tab` | Jump to next snippet placeholder (when in snippet) |
+| `Shift-Tab` | Jump to previous snippet placeholder |
+
+**Note**: The completion menu is **nvim-cmp**, not Mason. Mason (`:Mason`) is for installing LSP servers.
+
 ### File Operations
 | Key | Mode | Action |
 |-----|------|--------|
@@ -427,18 +443,23 @@ Then press `U` to update all.
 | `<leader>wp` | Normal | Edit wp-config.php |
 | `<leader>wf` | Normal | Edit functions.php |
 
+### Code Outline
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>o` | Normal | Toggle code outline (view functions, classes, symbols) |
 
 ---
 
 ## 🎯 WordPress Development Features
 
 ### WordPress-Specific LSP Configuration
-The Intelephense LSP server is configured with comprehensive WordPress stubs (see `lua/lsp.lua`):
-- Full WordPress function definitions
+The Intelephense LSP server is configured with comprehensive WordPress stubs (see `lua/lsp.lua` lines 185-200):
+- Full WordPress function definitions (wp_*, get_*, the_*, add_*, etc.)
 - Hook and filter suggestions
 - WordPress coding standards
-- Global variables and constants
+- Global variables ($wpdb, $post, etc.) and constants (WP_DEBUG, ABSPATH, etc.)
 - Custom post types and taxonomies support
+- Auto-completion as you type with arrow key navigation!
 
 ### WordPress Snippets
 Quick access to common WordPress patterns via LuaSnip (defined in `lua/snippets/wordpress.lua`):
@@ -462,9 +483,16 @@ Quick access to common WordPress patterns via LuaSnip (defined in `lua/snippets/
 
 ### Database Integration
 - **vim-dadbod** - Direct database queries
-- **vim-dadbod-ui** - Visual database browser
-- **Database completion** - Table and column suggestions
+- **vim-dadbod-ui** - Visual database browser (`:DBUIToggle` or `<leader>db`)
+- **Database completion** - Table and column suggestions in completion menu
 - Toggle with `<leader>db`
+- Supports MySQL, PostgreSQL, SQLite, SQL Server, Oracle
+
+### Code Outline
+- **outline.nvim** - Shows document structure (functions, classes, variables)
+- Toggle with `<leader>o`
+- Updates automatically as you edit
+- Click or press Enter to jump to symbol
 
 ---
 
@@ -565,6 +593,14 @@ require("snippets.my_snippets")
 ---
 
 ## 🔧 Troubleshooting
+
+### Completion Menu: Arrow Keys Not Working
+**Symptom**: Can't navigate completion menu with arrow keys
+
+**Solution**: Already fixed! Arrow keys (↑↓) are configured in `lua/lsp.lua` lines 68-82. If still not working:
+1. Restart Neovim: `:qa` then `nvim`
+2. Check config: `:verbose imap <Down>`
+3. The menu appears from **nvim-cmp** (not Mason)
 
 ### Plugin Installation Issues
 
@@ -682,8 +718,13 @@ Optimize in plugin files:
 
 Add to `lua/keymaps.lua`:
 ```lua
+local map = vim.keymap.set
 map("n", "<leader>key", ":Command<CR>", { desc = "Description" })
 ```
+
+---
+
+## 📚 Learning Resources
 
 ### Neovim
 - [Neovim Documentation](https://neovim.io/doc/)
@@ -774,4 +815,21 @@ MIT License - Feel free to use and modify for your own setup.
 
 *Transform your development workflow with the power of Neovim!*
 
-**Leader Key: `-` (dash)** | **Maintained by**: nickel | **Last Updated**: October 2024
+---
+
+## 💡 Key Features Summary
+
+✅ **Arrow key navigation** in completion menu (↑↓ + Enter)
+✅ **12 LSP servers** auto-installed with WordPress stubs
+✅ **Code outline** sidebar (`<leader>o`) shows functions/classes
+✅ **Integrated terminal** (`<leader>t`) with persistent sessions
+✅ **Database UI** (`<leader>db`) for WordPress development
+✅ **Git integration** with status, commit, push, diff
+✅ **Fuzzy finder** (`<leader>ff`, `<leader>fg`) for files and text
+✅ **WordPress snippets** (wpq, wpl, wpcpt, wpenq, etc.)
+✅ **Auto-completion** from LSP, snippets, buffer, and paths
+✅ **Smart commenting** (gcc) with language awareness
+
+**Leader Key: `-` (dash)** | **See CLAUDE.md for comprehensive documentation**
+
+**Maintained by**: nickel | **Last Updated**: November 2024
