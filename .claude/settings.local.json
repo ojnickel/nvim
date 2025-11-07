@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git config:*)",
+      "Bash(/mnt/c/Windows/System32/powercfg.exe /list)"
     ],
     "deny": [],
     "ask": []
