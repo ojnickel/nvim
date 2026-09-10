@@ -6,7 +6,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 ![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)
 
-**Neovim 0.9+** compatible with modular plugin architecture
+**Neovim 0.11+** required (uses the `vim.lsp.config()` API) with modular plugin architecture
 
 ---
 
@@ -52,11 +52,14 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 - **Auto-tags** - Automatic HTML tag closing with Treesitter
 
 ### 🎯 UX & Navigation
-- **Comment.nvim** - Smart commenting with treesitter integration
+- **Comment.nvim + NERDCommenter** - Two commenting plugins side by side (`gcc`/`gc` vs. `<leader>c...`) — neither's default keys collide, kept for redundancy
 - **Which-key** - Interactive keybinding hints
 - **Indent Guides** - Visual indent lines for better code structure
 - **Colorizer** - Live CSS color preview in files
 - **Smart Completion** - Arrow key navigation (↑↓) and Enter to accept in completion menu
+
+### 🤖 AI Assistant
+- **avante.nvim** - Cursor-style AI chat/edit sidebar, backed by a **local Ollama** server (no cloud API key) — see `lua/plugins/avante.lua`. Default provider `qwen_coder` (`qwen2.5-coder:3b`, the pulled variant — `deepseek-coder:6.7b` is also pulled and usable now). `llama3.2:3b` and `phi3.5:mini` are pre-configured as alternate providers but need `ollama pull <model>` before use. Requires `ollama serve` running locally (check with `ollama list`).
 
 ---
 
@@ -115,8 +118,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 | `nvim-treesitter/nvim-treesitter` | Advanced syntax highlighting | `lua/plugins/treesitter.lua` |
 | `windwp/nvim-autopairs` | Auto-close brackets and quotes | `lua/plugins/editor.lua` |
 | `windwp/nvim-ts-autotag` | Auto-close HTML tags | `lua/plugins/formatting.lua` |
-| `jose-elias-alvarez/null-ls.nvim` | Formatting and diagnostics | `lua/plugins/formatting.lua` |
-| `MunifTanjim/prettier.nvim` | Prettier integration | `lua/plugins/formatting.lua` |
+| `MunifTanjim/prettier.nvim` | Installed but not wired up — `<leader>f` currently calls native LSP formatting (`vim.lsp.buf.format()`), not Prettier | `lua/plugins/formatting.lua` |
 | `norcalli/nvim-colorizer.lua` | CSS color preview | `lua/plugins/editor.lua` |
 
 ### Git Integration
@@ -128,9 +130,16 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 ### Utilities
 | Plugin | Purpose | Config File |
 |--------|---------|-------------|
-| `numToStr/Comment.nvim` | Smart commenting | `lua/plugins/editor.lua` |
+| `numToStr/Comment.nvim` | Smart commenting (`gcc`/`gc`) | `lua/plugins/editor.lua` |
+| `preservim/nerdcommenter` | Alternate commenting (`<leader>c...`) — kept alongside Comment.nvim, no key collisions | `lua/plugins/editor.lua` |
 | `folke/which-key.nvim` | Keybinding hints | `lua/plugins/editor.lua` |
 | `akinsho/toggleterm.nvim` | Terminal integration | `lua/plugins/terminal.lua` |
+
+### AI Assistant
+| Plugin | Purpose | Config File |
+|--------|---------|-------------|
+| `yetone/avante.nvim` | Cursor-style AI chat/edit sidebar, local Ollama backend | `lua/plugins/avante.lua` |
+| `stevearc/dressing.nvim` | Nicer input/select UI, used by avante.nvim | `lua/plugins/avante.lua` |
 
 ### Web Development
 | Plugin | Purpose | Config File |
