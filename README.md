@@ -52,7 +52,7 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 - **Auto-tags** - Automatic HTML tag closing with Treesitter
 
 ### 🎯 UX & Navigation
-- **Comment.nvim + NERDCommenter** - Two commenting plugins side by side (`gcc`/`gc` vs. `<leader>c...`) — neither's default keys collide, kept for redundancy
+- **Comment.nvim** - Smart, Treesitter-aware commenting (`gcc`/`gc`) — picks the right comment syntax even in mixed-syntax files like WordPress PHP templates
 - **Which-key** - Interactive keybinding hints
 - **Indent Guides** - Visual indent lines for better code structure
 - **Colorizer** - Live CSS color preview in files
@@ -131,7 +131,6 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 | Plugin | Purpose | Config File |
 |--------|---------|-------------|
 | `numToStr/Comment.nvim` | Smart commenting (`gcc`/`gc`) | `lua/plugins/editor.lua` |
-| `preservim/nerdcommenter` | Alternate commenting (`<leader>c...`) — kept alongside Comment.nvim, no key collisions | `lua/plugins/editor.lua` |
 | `folke/which-key.nvim` | Keybinding hints | `lua/plugins/editor.lua` |
 | `akinsho/toggleterm.nvim` | Terminal integration | `lua/plugins/terminal.lua` |
 

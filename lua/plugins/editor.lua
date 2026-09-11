@@ -38,11 +38,6 @@ return {
       require("Comment").setup()
     end,
   },
-  -- NERDCommenter: overlaps with Comment.nvim above (both toggle comments),
-  -- kept side by side since neither's default keys collide — Comment.nvim
-  -- uses gcc/gc/gbc/gb, NERDCommenter uses <leader>c... (leader is '-' here,
-  -- so -cc/-c<space>/-cu/etc.). See :help NERDCommenter for the full set.
-  { "preservim/nerdcommenter" },
 
   -- Auto pairs
   {

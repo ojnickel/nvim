@@ -504,14 +504,6 @@ above but with no working fallback.)
   - Visual mode: `gb` - Block comment selection
 - **Languages**: Automatically detects comment style (// for JS, # for Python, <!-- --> for HTML, etc.)
 
-#### preservim/nerdcommenter
-- **What**: A second, independent commenting plugin, kept alongside Comment.nvim
-- **How it works**: Classic vimscript comment toggling; its default keys are all
-  `<leader>c...` (leader is `-` here, so `-cc`, `-c<space>`, `-cu`, etc.) —
-  no overlap with Comment.nvim's `gcc`/`gc`/`gbc`/`gb`, so both work side by side
-- **Config**: `lua/plugins/editor.lua` (plain declaration, default settings)
-- **Reference**: `:help NERDCommenter` for the full key list
-
 #### folke/which-key.nvim
 - **What**: Shows popup with available keybindings after you press leader or other keys
 - **How it works**: After pressing `<leader>`, shows all available continuations with descriptions
