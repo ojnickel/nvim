@@ -12,6 +12,7 @@ return {
   },
 
   -- Formatting
-  { "jose-elias-alvarez/null-ls.nvim" },
+  -- (null-ls.nvim removed: archived upstream since 2023, was declared here
+  -- but never .setup() — dead weight, not wired into anything)
   { "MunifTanjim/prettier.nvim" },
 }

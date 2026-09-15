@@ -418,18 +418,19 @@ All servers defined in `lua/lsp.lua` lines 18-31 are automatically installed on 
 - **Filetypes**: HTML, XML, JavaScript, TypeScript, React (JSX/TSX), PHP
 - **Example**: Type `<button>` → becomes `<button></button>` with cursor at `<button>|</button>`
 
-#### jose-elias-alvarez/null-ls.nvim
-- **What**: Bridge for using non-LSP formatters and linters
-- **How it works**: Wraps tools like Prettier, ESLint into LSP protocol
-- **Config**: `lua/plugins/formatting.lua` line 15
-- **Note**: Plugin declared but not configured. Can be used for Prettier, ESLint, Stylelint, etc.
-
 #### MunifTanjim/prettier.nvim
 - **What**: Prettier formatter integration
-- **How it works**: Formats code using Prettier when you run `<leader>f`
-- **Config**: `lua/plugins/formatting.lua` line 16
-- **Requires**: Prettier installed (`npm install -g prettier`)
+- **How it works**: Installed, but **not currently wired up** — `<leader>f` calls
+  `vim.lsp.buf.format()` (native LSP formatting via whichever server is
+  attached), not Prettier. Would need `require("prettier").setup(...)` to
+  actually take effect.
+- **Config**: `lua/plugins/formatting.lua`
+- **Requires** (once configured): Prettier installed (`npm install -g prettier`)
 - **Supported**: JavaScript, TypeScript, CSS, HTML, JSON, Markdown
+
+(`jose-elias-alvarez/null-ls.nvim` was removed — archived upstream since 2023,
+was declared here but never configured, same dead-weight problem as prettier
+above but with no working fallback.)
 
 #### norcalli/nvim-colorizer.lua
 - **What**: Shows color preview for CSS color codes
@@ -532,6 +533,26 @@ All servers defined in `lua/lsp.lua` lines 18-31 are automatically installed on 
 - **Customization**:
   - Size: `size = 20` (line 8)
   - Direction: `direction = "horizontal"` (line 15) - options: horizontal, vertical, float, tab
+
+---
+
+### AI Assistant
+
+#### yetone/avante.nvim
+- **What**: Cursor-style AI chat/edit sidebar, backed by a **local Ollama**
+  server — no cloud API key needed
+- **How it works**: Sends buffer/selection context to whichever provider is
+  active; Ollama is queried via its OpenAI-compatible endpoint
+  (`http://127.0.0.1:11434/v1`)
+- **Config**: `lua/plugins/avante.lua`
+- **Requires**: `ollama serve` running locally (check with `ollama list`);
+  `build = "make"` compiles avante's native helpers on install
+- **Providers configured**:
+  - `qwen_coder` (default) → `qwen2.5-coder:3b` — pulled, works out of the box
+  - `deepseek_coder` → `deepseek-coder:6.7b` — pulled, works out of the box
+  - `llama_fast` → `llama3.2:3b` — **not pulled**, run `ollama pull llama3.2:3b` first
+  - `phi_mini` → `phi3.5:mini` — **not pulled**, run `ollama pull phi3.5:mini` first
+- **Window**: right side, 40 columns wide (`windows.position`/`windows.width`)
 
 ---
 
