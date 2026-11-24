@@ -38,7 +38,13 @@ return {
           operators = {},
         },
         color_overrides = {},
-        custom_highlights = {},
+        -- Make the cursor line clearly visible (default mocha bg is too faint)
+        custom_highlights = function(colors)
+          return {
+            CursorLine = { bg = colors.surface0 },
+            CursorLineNr = { fg = colors.peach, bold = true },
+          }
+        end,
         integrations = {
           cmp = true,
           gitsigns = true,

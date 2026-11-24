@@ -1,5 +1,15 @@
 -- init.lua
 
+-- Hide the vim.tbl_flatten deprecation notice (comes from third-party plugins,
+-- not this config). Every other deprecation warning still shows.
+do
+  local deprecate = vim.deprecate
+  vim.deprecate = function(name, ...)
+    if name == "vim.tbl_flatten" then return end
+    return deprecate(name, ...)
+  end
+end
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
