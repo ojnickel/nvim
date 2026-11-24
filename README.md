@@ -58,8 +58,6 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 - **Colorizer** - Live CSS color preview in files
 - **Smart Completion** - Arrow key navigation (↑↓) and Enter to accept in completion menu
 
-### 🤖 AI Assistant
-- **avante.nvim** - Cursor-style AI chat/edit sidebar, backed by a **local Ollama** server (no cloud API key) — see `lua/plugins/avante.lua`. Default provider `qwen_coder` (`qwen2.5-coder:3b`, the pulled variant — `deepseek-coder:6.7b` is also pulled and usable now). `llama3.2:3b` and `phi3.5:mini` are pre-configured as alternate providers but need `ollama pull <model>` before use. Requires `ollama serve` running locally (check with `ollama list`).
 
 ---
 
@@ -137,8 +135,6 @@ A powerful, fully-featured Neovim configuration optimized for WordPress and mode
 ### AI Assistant
 | Plugin | Purpose | Config File |
 |--------|---------|-------------|
-| `yetone/avante.nvim` | Cursor-style AI chat/edit sidebar, local Ollama backend | `lua/plugins/avante.lua` |
-| `stevearc/dressing.nvim` | Nicer input/select UI, used by avante.nvim | `lua/plugins/avante.lua` |
 
 ### Web Development
 | Plugin | Purpose | Config File |

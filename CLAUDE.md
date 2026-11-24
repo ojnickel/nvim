@@ -536,26 +536,6 @@ above but with no working fallback.)
 
 ---
 
-### AI Assistant
-
-#### yetone/avante.nvim
-- **What**: Cursor-style AI chat/edit sidebar, backed by a **local Ollama**
-  server — no cloud API key needed
-- **How it works**: Sends buffer/selection context to whichever provider is
-  active; Ollama is queried via its OpenAI-compatible endpoint
-  (`http://127.0.0.1:11434/v1`)
-- **Config**: `lua/plugins/avante.lua`
-- **Requires**: `ollama serve` running locally (check with `ollama list`);
-  `build = "make"` compiles avante's native helpers on install
-- **Providers configured**:
-  - `qwen_coder` (default) → `qwen2.5-coder:3b` — pulled, works out of the box
-  - `deepseek_coder` → `deepseek-coder:6.7b` — pulled, works out of the box
-  - `llama_fast` → `llama3.2:3b` — **not pulled**, run `ollama pull llama3.2:3b` first
-  - `phi_mini` → `phi3.5:mini` — **not pulled**, run `ollama pull phi3.5:mini` first
-- **Window**: right side, 40 columns wide (`windows.position`/`windows.width`)
-
----
-
 ### Language-Specific Plugins
 
 #### dsawardekar/wordpress.vim
